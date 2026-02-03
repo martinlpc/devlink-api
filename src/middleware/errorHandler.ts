@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/AppError.js";
+import {logger} from '../config/logger.js'
 
 export const errorHandler = (
     err: Error,
@@ -13,7 +14,7 @@ export const errorHandler = (
     const message = isAppError ? err.message : 'Internal Server Error'
 
     if(!isAppError) {
-        console.error('Unexpected error:',err)
+        logger.error({ err }, 'Unexpected error')
     }
 
     res.status(statusCode).json({error: message})
